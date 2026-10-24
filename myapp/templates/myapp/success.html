@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Request Sent</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; color: #222; }
+        header { background: #111; color: white; padding: 18px; font-size: 22px; font-weight: bold; }
+        header span { color: #ff8517; }
+        .card { background: white; margin: 18px auto; padding: 20px; max-width: 500px;
+                border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .ok { color: green; text-align: center; }
+        .workshop { border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin: 12px 0; }
+        .workshop b { display: block; font-size: 17px; }
+        .workshop small { color: #666; }
+        a.call { display: block; background: #ff8517; color: white; padding: 12px;
+                 border-radius: 6px; text-decoration: none; font-weight: bold;
+                 text-align: center; margin-top: 10px; }
+        a.back { display: block; text-align: center; margin-top: 16px; color: #333; }
+    </style>
+</head>
+<body>
+    <header>Road<span>Assist</span></header>
+    <div class="card">
+        <h2 class="ok">Request received!</h2>
+        <h3>Call a workshop:</h3>
+        {% for w in workshops %}
+            <div class="workshop">
+                <b>{{ w.name }}</b>
+                <small>{{ w.area }}</small>
+                <a class="call" href="tel:{{ w.phone }}">Call {{ w.phone }}</a>
+            </div>
+        {% empty %}
+            <p>No workshops added yet.</p>
+        {% endfor %}
+        <a class="back" href="{% url 'home' %}">Back to home</a>
+    </div>
+</body>
+</html>

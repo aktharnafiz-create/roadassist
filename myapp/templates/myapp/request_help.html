@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RoadAssist - Request Help</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            color: #222;
+        }
+        header {
+            background: #111;
+            color: white;
+            padding: 18px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        header span { color: #ff8517; }
+        .card {
+            background: white;
+            margin: 18px auto;
+            padding: 20px;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .card p { margin: 14px 0; }
+        label { display: block; font-weight: bold; margin-bottom: 6px; }
+        input[type=text], select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            margin-top: 10px;
+            cursor: pointer;
+            color: white;
+        }
+        .loc { background: #333; }
+        .send { background: #ff8517; font-weight: bold; }
+        #status { text-align: center; color: green; }
+    </style>
+</head>
+<body>
+    <header>Road<span>Assist</span></header>
+
+    <div class="card">
+        <h2>Breakdown Help</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="button" class="loc" onclick="getLocation()">Share My Location</button>
+            <p id="status"></p>
+            <button type="submit" class="send">Send Request</button>
+        </form>
+    </div>
+
+    <script>
+    function getLocation() {
+        document.getElementById('status').innerText = 'Getting location...';
+        navigator.geolocation.getCurrentPosition(
+            function (pos) {
+                document.getElementById('id_latitude').value = pos.coords.latitude;
+                document.getElementById('id_longitude').value = pos.coords.longitude;
+                document.getElementById('status').innerText = 'Location captured!';
+            },
+            function () {
+                document.getElementById('status').innerText = 'Could not get location. Allow location permission.';
+            }
+        );
+    }
+    </script>
+</body>
+</html>
